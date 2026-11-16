@@ -1,0 +1,18 @@
+{
+  "name": "Maderas del Norte - Sistema de Pedidos",
+  "short_name": "Maderas Norte",
+  "description": "Catálogo y sistema de reservas de madera",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#12100e",
+  "theme_color": "#d97706",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2997/2997312.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
