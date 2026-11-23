@@ -1,0 +1,150 @@
+:root {
+    --bg-dark: #12100e;
+    --primary-wood: #d97706;
+    --panel-bg: #1c1814;
+    --text-light: #e0e0e0;
+}
+
+/* 100dvh evita que el teclado virtual del celular rompa la pantalla */
+body { 
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; 
+    background-color: var(--bg-dark); 
+    color: var(--text-light); 
+    min-height: 100dvh; 
+    margin: 0; 
+    overflow-y: auto; /* Permite scroll vertical si es necesario */
+    overflow-x: hidden; 
+}
+
+.app-container { 
+    display: flex; 
+    flex-direction: column; 
+    min-height: 100dvh; 
+    padding: 10px; 
+}
+
+.top-section { 
+    display: flex; 
+    flex: 1; 
+    gap: 15px; 
+}
+
+/* EN CELULAR: Todo se apila en columna */
+@media (max-width: 768px) {
+    .top-section { flex-direction: column; height: auto; }
+    .main-menu, .catalog-section, .side-panel { flex: none; width: 100%; }
+    .side-panel { order: -1; } /* El reloj va arriba en móviles */
+    .brand-box { display: flex; justify-content: space-between; align-items: center; padding: 10px 15px; }
+    .brand-box h1 { font-size: 18px; text-align: left; margin: 0; }
+    .clock-box { padding: 10px; }
+    .clock-box h3 { font-size: 24px; }
+}
+
+/* MENÚ PRINCIPAL */
+.main-menu { flex: 3; background: var(--panel-bg); border: 1px solid #332a22; border-radius: 12px; padding: 20px; display: flex; flex-direction: column; justify-content: center; }
+.menu-title { text-align: center; color: var(--primary-wood); font-weight: 800; margin-bottom: 20px; letter-spacing: 1px; }
+.giant-buttons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.giant-btn { 
+    position: relative; overflow: hidden; background-size: cover; background-position: center; 
+    border: 2px solid #332a22; border-radius: 15px; padding: 20px 10px; 
+    display: flex; flex-direction: column; align-items: center; justify-content: center; 
+    color: white; transition: all 0.3s ease; cursor: pointer;
+    min-height: 120px; /* Área táctil obligatoria */
+}
+.giant-btn::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(18, 16, 14, 0.8); z-index: 1; transition: background 0.3s; }
+.giant-btn > * { position: relative; z-index: 2; }
+.giant-btn:hover::before { background: rgba(18, 16, 14, 0.5); }
+.giant-btn:hover { border-color: var(--primary-wood); box-shadow: 0 0 20px rgba(217, 119, 6, 0.3); transform: translateY(-5px); }
+.giant-btn i { color: #8c6b4a; transition: color 0.3s ease; }
+.giant-btn:hover i { color: var(--primary-wood); }
+.giant-btn span { font-size: 16px; font-weight: 800; text-align: center; line-height: 1.2; }
+.giant-btn small { color: #ccc; margin-top: 5px; font-size: 12px; }
+
+/* Imágenes de fondo */
+.bg-pino { background-image: url('https://images.unsplash.com/photo-1543357567-8049b389b1e1?auto=format&fit=crop&w=600&q=80'); }
+.bg-roble { background-image: url('https://images.unsplash.com/photo-1611073570629-1a5c7ba4b6c9?auto=format&fit=crop&w=600&q=80'); }
+.bg-cedro { background-image: url('https://images.unsplash.com/photo-1519711668-82c58f550481?auto=format&fit=crop&w=600&q=80'); }
+.bg-accesorios { background-image: url('https://images.unsplash.com/photo-1504148455328-c376907d081c?auto=format&fit=crop&w=600&q=80'); }
+
+/* CATÁLOGO Y LOTES */
+.catalog-section { flex: 3; background: var(--panel-bg); border: 1px solid #332a22; border-radius: 12px; padding: 20px; display: none; flex-direction: column; }
+#stationView { width: 100%; height: 100%; }
+.station-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; width: 100%; }
+
+.station-card { 
+    background: #241f1a; border: 2px solid #3d3228; border-radius: 10px; padding: 15px; 
+    text-align: center; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; 
+    min-height: 80px;
+}
+.station-card i { font-size: 30px; margin-bottom: 5px; color: #555; }
+.station-card h4 { font-size: 14px; margin: 0; font-weight: 800; }
+.station-card span { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
+.station-card.available { border-color: rgba(217, 119, 6, 0.4); }
+.station-card.available:hover { border-color: var(--primary-wood); box-shadow: 0 0 15px rgba(217, 119, 6, 0.3); transform: translateY(-3px); }
+.station-card.available i, .station-card.available span { color: var(--primary-wood); }
+.station-card.busy { opacity: 0.5; cursor: not-allowed; background: #151210; }
+.station-card.busy i, .station-card.busy span { color: #ff3333; }
+
+/* PRODUCTOS / JUEGOS CON LAZY LOADING */
+.game-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; overflow-y: auto; max-height: 350px; padding-right: 5px; }
+.game-card { 
+    background: #241f1a; border: 1px solid #3d3228; border-radius: 10px; padding: 10px; 
+    text-align: center; cursor: pointer; transition: 0.3s;
+    display: flex; flex-direction: column; align-items: center;
+}
+.game-card img { border: 1px solid #3d3228; }
+/* Truncado de texto seguro para móviles (Text-overflow) */
+.game-card span { 
+    display: block; font-size: 11px; font-weight: 600; width: 100%;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis; 
+}
+.game-card:hover { border-color: var(--primary-wood); background: #2e2721; transform: scale(1.05); }
+
+/* PANEL DERECHO */
+.side-panel { flex: 1; display: flex; flex-direction: column; gap: 15px; }
+.brand-box { background: var(--panel-bg); border: 1px solid var(--primary-wood); border-radius: 12px; padding: 15px; text-align: center; position: relative; }
+.brand-box h1 { font-weight: 800; color: var(--primary-wood); margin: 0; letter-spacing: 2px; line-height: 1.1; }
+
+.btn-gear { 
+    position: absolute; top: 10px; right: 10px; background: transparent; border: none; color: var(--primary-wood); font-size: 20px; cursor: pointer; 
+    width: 44px; height: 44px; display: flex; justify-content: center; align-items: center; /* Área táctil */
+}
+
+.settings-menu { position: absolute; top: 60px; right: 10px; background: var(--panel-bg); border: 1px solid var(--primary-wood); border-radius: 8px; width: 200px; display: none; z-index: 1050; }
+.settings-menu ul { list-style: none; padding: 0; margin: 0; }
+.settings-menu ul li a { display: block; padding: 12px 15px; color: var(--text-light); text-decoration: none; font-size: 14px; border-bottom: 1px solid #332a22; }
+.settings-menu ul li a:hover { background: #332a22; color: var(--primary-wood); }
+
+.clock-box { background: #000; border: 1px solid #332a22; border-radius: 12px; padding: 15px; text-align: center; font-family: monospace; }
+.clock-box h3 { color: #fff; margin: 0; font-size: 28px; letter-spacing: 1px; }
+.clock-box small { color: #8c6b4a; }
+
+/* MODALES Y OTROS */
+.total-box { background: #111; padding: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px dashed #332a22; }
+.log-console { background: #000; border-radius: 6px; padding: 10px; font-family: monospace; font-size: 12px; color: #d97706; overflow-y: auto; }
+.log-console div { margin-bottom: 5px; border-bottom: 1px dashed #222; padding-bottom: 5px; }
+.custom-toast { position: fixed; top: 20px; right: 20px; background: #241f1a; color: white; padding: 15px 25px; border-radius: 8px; border-left: 4px solid var(--primary-wood); box-shadow: 0 5px 15px rgba(0,0,0,0.5); display: none; z-index: 9999; font-weight: 600; }
+
+/* FOOTER */
+.app-footer { height: auto; min-height: 50px; margin-top: 15px; background: var(--panel-bg); border-top: 1px solid var(--primary-wood); border-radius: 8px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 10px; }
+.social-links a { color: #888; font-size: 20px; margin: 0 10px; display: inline-block; width: 44px; height: 44px; text-align: center; line-height: 44px; transition: 0.3s; }
+.social-links a:hover { color: var(--primary-wood); }
+/* ===== PANEL DE AUDITORÍA (Smoke Test + A11Y) ===== */
+.panel-auditoria {
+    background: var(--panel-bg);
+    border: 1px solid var(--primary-wood);
+    border-radius: 12px;
+    padding: 15px;
+}
+#salidaAudit {
+    font-family: monospace;
+    font-size: 13px;
+    color: #ffc107;
+    border-left: 3px solid var(--primary-wood);
+    padding-left: 10px;
+}
+
+/* En móvil el panel de auditoría va después del main, no fijo */
+@media (max-width: 768px) {
+    .panel-auditoria { order: 3; }
+}
